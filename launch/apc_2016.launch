@@ -4,7 +4,7 @@
   <param name="output_file_path" value="$(find apc_2016)/json/task.json" />
   <!-- nodes -->
   <node name="tsk_pln" pkg="apc_2016" type="tsk_pln.py" />
-  <node name="man_obj_srv" pkg="apc_2016" type="man_obj_srv_stb.py" />
+  <!-- <node name="man_obj_srv" pkg="apc_2016" type="man_obj_srv_stb.py" /> -->
   <node name="serial_node" pkg="rosserial_python" type="serial_node.py">
     <param name="port" value="/dev/virtualcom0" />
     <param name="baud" value="115200" />
