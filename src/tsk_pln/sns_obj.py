@@ -10,4 +10,4 @@ def init(srv_name):
 
 def is_obj_sns():
     resp = srv()
-    return resp.is_sns
+    return resp.state

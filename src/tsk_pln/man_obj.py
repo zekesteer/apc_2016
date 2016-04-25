@@ -9,9 +9,9 @@ def init(srv_name):
     srv = rospy.ServiceProxy(srv_name, apc_2016.srv.ManObjSrv)
 
 def drop_obj():
-    resp = srv(0)
+    resp = srv(False)
     return resp.ack
 
 def grab_obj():
-    resp = srv(1)
+    resp = srv(True)
     return resp.ack

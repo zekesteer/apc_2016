@@ -11,9 +11,9 @@ srv_name = "sns_obj_srv"
 """ Functions """
 
 def callback(req):
-    is_sns = random.random() < 0.5
-    rospy.loginfo(srv_name + " request =, response = " + str(is_sns))
-    return is_sns
+    state = random.random() < 0.5
+    rospy.loginfo(srv_name + " request =, response = " + str(state))
+    return state
 
 def init():
     rospy.init_node(srv_name + "_node")
