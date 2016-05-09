@@ -59,8 +59,8 @@ def process_image(imageName, maskName, resultName):
         surf = cv2.SURF()
         k_surf, des_surf = surf.detectAndCompute(img, None)
 
-        img_surf = cv2.drawKeypoints(img, k_surf)
-        cv2.imwrite(resultName + "_keypoints_SURF.jpeg", img_surf)
+#        img_surf = cv2.drawKeypoints(img, k_surf)
+#        cv2.imwrite(resultName + "_keypoints_SURF.jpeg", img_surf)
 
         points_surf = pickle_keypoints(k_surf, des_surf)
         saveKeypointsDatabase(points_surf, resultName + ".key_surf")
@@ -72,8 +72,8 @@ def process_image(imageName, maskName, resultName):
         sift = cv2.SIFT()
         k_sift, des_sift = sift.detectAndCompute(img, None)
 
-        img_sift = cv2.drawKeypoints(img, k_sift)
-        cv2.imwrite(resultName + "_keypoints_SIFT.jpeg", img_sift)
+#        img_sift = cv2.drawKeypoints(img, k_sift)
+#        cv2.imwrite(resultName + "_keypoints_SIFT.jpeg", img_sift)
 
         points_sift = pickle_keypoints(k_sift, des_sift)
         saveKeypointsDatabase(points_sift, resultName + ".key_sift")
@@ -85,8 +85,8 @@ def process_image(imageName, maskName, resultName):
         orb = cv2.ORB()
         k_orb, des_orb = orb.detectAndCompute(img, None)
 
-        img_orb = cv2.drawKeypoints(img, k_orb)
-        cv2.imwrite(resultName + "_keypoints_ORB.jpeg", img_orb)
+#        img_orb = cv2.drawKeypoints(img, k_orb)
+#        cv2.imwrite(resultName + "_keypoints_ORB.jpeg", img_orb)
 
         points_orb = pickle_keypoints(k_orb, des_orb)
         saveKeypointsDatabase(points_orb, resultName + ".key_orb")
@@ -95,9 +95,9 @@ def process_image(imageName, maskName, resultName):
 
 def main():
 
-    objectsToRecognisePath = "./test detection/initialPresentation/"
+    objectsToRecognisePath = "./"
     poses = objectsToRecognisePath + "poses/"
-    database = objectsToRecognisePath + "database/"
+    database = objectsToRecognisePath + "keypoints/"
     extensionImages = ".png"
 
     tifCounter = len(glob.glob1(poses, "*" + extensionImages))
