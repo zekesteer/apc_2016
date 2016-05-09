@@ -363,6 +363,9 @@ def id_obj(obj_ids):
             filt_obj_ids.append(obj_id)
             rospy.loginfo(obj_id)
 
+    if len(filt_obj_ids) == 0:
+        return None
+
     pos_arm.set_pose(rec_obj_pose)
     return rec_obj.get_obj_id(filt_obj_ids)
 
@@ -427,7 +430,7 @@ if __name__ == "__main__":
         pick_obj()
         obj_id = id_obj(tote_obj_ids)
 
-        if obj_id == "":
+        if obj_id == None:
             # failed to detect object, put it back
             pos_arm.set_pose(pick_obj_pose)
             man_obj.drop_obj()
