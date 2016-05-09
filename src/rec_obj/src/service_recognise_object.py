@@ -83,7 +83,7 @@ class image_converter:
     #print(name_matched_image_sift_global)
 
     if name_matched_image_sift_global != []:
-        return name_matched_image_sift_global[0]
+        return name_matched_image_sift_global[0][:-2]
     else:
         return ""
 
