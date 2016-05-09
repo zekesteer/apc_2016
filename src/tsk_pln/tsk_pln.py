@@ -7,6 +7,7 @@ import random
 import rec_obj
 import rospy
 import sns_obj
+import wgh_obj
 import geometry_msgs
 import std_msgs
 
