@@ -223,8 +223,8 @@ weigh_obj_pose.orientation.z = 7
 # object ids
 
 #obj_a_id = "cheezit_big_original"
-obj_a_id = "dove_soap" # todo: correct id?
-obj_b_id = "dead_sea_minerals_scrub" # todo: correct id?
+obj_a_id = "dove_beauty_bar" # todo: correct id?
+obj_b_id = "one_with_nature_soap_dead_sea_mud" # todo: correct id?
 obj_c_id = "champion_copper_plus_spark_plug"
 obj_d_id = "crayola_64_ct"
 obj_e_id = "dr_browns_bottle_brush"
@@ -364,7 +364,7 @@ def id_obj(obj_ids):
             rospy.loginfo(obj_id)
 
     if len(filt_obj_ids) == 0:
-        return None
+        return ""
 
     pos_arm.set_pose(rec_obj_pose)
     return rec_obj.get_obj_id(filt_obj_ids)
@@ -428,13 +428,17 @@ if __name__ == "__main__":
     # stow items in tote
     while len(tote_obj_ids) > 0:
         pick_obj()
+        
         obj_id = id_obj(tote_obj_ids)
 
-        if obj_id == None:
+        rospy.loginfo("object recognised: " + obj_id)
+
+        if obj_id == "":
             # failed to detect object, put it back
             pos_arm.set_pose(pick_obj_pose)
             man_obj.drop_obj()
         else:
+
             # successful detected object   
             bin_id = sel_bin(data)
             stow_obj(bin_id)

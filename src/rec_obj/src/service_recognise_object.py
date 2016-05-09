@@ -56,7 +56,7 @@ class image_converter:
     return self.image
 
 
-  def processImage(self):
+  def processImage(self, objectNames):
 
     while self.getImage() == None:
         continue
@@ -74,7 +74,7 @@ class image_converter:
 #    
     #print("Before matching")
     
-    name_matched_image_sift_global, kp_matched_image_sift_global, kpDest_sift, matches_sift_global_goodPoints, matches_sift_global_name, error_sift_global, M_sift_global, mask_sift_global = detectObjects.matchImageWithDatabase(self.image, "./keypoints/", "./poses/", ".png")
+    name_matched_image_sift_global, kp_matched_image_sift_global, kpDest_sift, matches_sift_global_goodPoints, matches_sift_global_name, error_sift_global, M_sift_global, mask_sift_global = detectObjects.matchImageWithDatabase(self.image, "./keypoints/", "./poses/", ".png", objectNames)
 
 
 #    cv2.destroyWindow("Image from webcam")
@@ -85,7 +85,7 @@ class image_converter:
     if name_matched_image_sift_global != []:
         return name_matched_image_sift_global[0]
     else:
-        return None
+        return ""
 
 
 
@@ -93,8 +93,12 @@ class image_converter:
 # Function to recognise object
 def handle_recognise_object(req):
 
+    rospy.loginfo("list of objects: " + req.tote_obj_ids)
+
+    listObjects = req.tote_obj_ids.split(',')
+
     im = image_converter()
-    objectName = im.processImage()
+    objectName = im.processImage(listObjects)
 
     return objectName
 

@@ -2,14 +2,13 @@ import numpy as np
 import cv2
 from matplotlib import pyplot as plt
 import keypoints_management
-import utils
 import glob
 import scipy as sp
 import math
 
 
 
-def matchImageWithDatabase(imgDest, databasePath, imagesPath, extensionImages):
+def matchImageWithDatabase(imgDest, databasePath, imagesPath, extensionImages, objectNames):
 
     MAX_ERROR_MATCHING = 10
 
@@ -39,7 +38,7 @@ def matchImageWithDatabase(imgDest, databasePath, imagesPath, extensionImages):
     counter = 1
 
     if len(kpDest_sift) > 0 :
-        for objSource in utils.objectNames:
+        for objSource in objectNames:
 
             minError_sift = float("inf")
 
