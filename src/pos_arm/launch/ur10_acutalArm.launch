@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<!--
+  Universal robot ur10 launch.  Loads ur10 robot description (see ur_common.launch
+  for more info)
+
+  Usage:
+    ur10_bringup.launch robot_ip:=<value>
+-->
+<launch>
+  
+  <!-- robot_ip: IP-address of the robot's socket-messaging server -->
+  <arg name="robot_ip" default="192.168.0.114"/>
+  <arg name="reverse_port" default="50001"/>
+  <arg name="limited" default="false"/> <!--note changed to false-->
+  <arg name="min_payload"  default="0.0"/>
+  <arg name="max_payload"  default="20.0"/>
+
+  <!-- robot model -->
+  <include file="$(find apc_2016)/src/pos_arm/launch/ur10_mod.launch"> <!--check whether this launches gazebo with old model-->
+    <!-- <arg name="limited" value="$(arg limited)"/> -->
+  </include>
+  
+  <!-- ur common -->
+  <include file="$(find ur_bringup)/launch/ur_common.launch"> <!--investigate what this common.launch does-->
+    <arg name="robot_ip" value="$(arg robot_ip)"/>
+    <arg name="reverse_port" value="$(arg reverse_port)"/>
+    <arg name="min_payload"  value="$(arg min_payload)"/>
+    <arg name="max_payload"  value="$(arg max_payload)"/>
+  </include>
+
+   <!-- launch moveit-->
+
+   <include file="$(find ur10_moveit_config)/launch/ur10_moveit_planning_execution.launch">
+    <arg name="limited" value="true"/>
+  </include>
+
+
+
+   <!-- launch rviz-->
+
+   <include file="$(find ur10_moveit_config)/launch/moveit_rviz.launch">
+    <arg name="config" value="true"/> 
+   </include>
+
+    <rosparam file="$(find apc_2016)/src/pos_arm_stb/urdf/vel.yaml" command="load" ns = "/robot_description_planning"/>
+
+</launch>

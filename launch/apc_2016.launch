@@ -4,13 +4,13 @@
   <param name="output_file_path" value="$(find apc_2016)/json/task.json" />
   <!-- nodes -->
   <node name="tsk_pln" pkg="apc_2016" type="tsk_pln.py" />
-  <node name="man_obj_srv" pkg="apc_2016" type="man_obj_srv_stb.py" />
-  <!-- <node name="serial_node" pkg="rosserial_python" type="serial_node.py">
-    <param name="port" value="/dev/virtualcom0" />
+  <!-- <node name="man_obj_srv" pkg="apc_2016" type="man_obj_srv_stb.py" /> -->
+  <node name="serial_node" pkg="rosserial_python" type="serial_node.py">
+    <param name="port" value="/dev/ttyACM0" />
     <param name="baud" value="115200" />
-  </node> -->
-  <!-- <node name="rec_obj_srv" pkg="apc_2016" type="rec_obj_srv_stb.py" />  -->
-  <include file="$(find apc_2016)/src/rec_obj/launch/rec_obj.launch" />
+  </node>
+  <node name="rec_obj_srv" pkg="apc_2016" type="rec_obj_srv_stb.py" />
+  <!-- <include file="$(find apc_2016)/src/rec_obj/launch/rec_obj.launch" /> -->
   <node name="pos_arm_srv" pkg="apc_2016" type="pos_arm_srv_stb.py" />
   <node name="sns_obj_srv" pkg="apc_2016" type="sns_obj_srv_stb.py" />
   <node name="wgh_obj_srv" pkg="apc_2016" type="wgh_obj_srv_stb.py" />
