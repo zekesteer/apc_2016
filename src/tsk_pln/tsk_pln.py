@@ -209,6 +209,109 @@ rec_obj_pose.orientation.x = 5
 rec_obj_pose.orientation.y = 6
 rec_obj_pose.orientation.z = 7
 
+# weigh pose
+
+weigh_obj_pose = geometry_msgs.msg.Pose()
+weigh_obj_pose.position.x = 1
+weigh_obj_pose.position.y = 2
+weigh_obj_pose.position.z = 3
+weigh_obj_pose.orientation.w = 4
+weigh_obj_pose.orientation.x = 5
+weigh_obj_pose.orientation.y = 6
+weigh_obj_pose.orientation.z = 7
+
+# object ids
+
+#obj_a_id = "cheezit_big_original"
+obj_a_id = "dove_soap" # todo: correct id?
+obj_b_id = "dead_sea_minerals_scrub" # todo: correct id?
+obj_c_id = "champion_copper_plus_spark_plug"
+obj_d_id = "crayola_64_ct"
+obj_e_id = "dr_browns_bottle_brush"
+obj_f_id = "elmers_washable_no_run_school_glue"
+obj_g_id = "expo_dry_erase_board_eraser"
+obj_h_id = "feline_greenies_dental_treats"
+obj_i_id = "first_years_take_and_toss_straw_cup"
+obj_j_id = "genuine_joe_plastic_stir_sticks"
+obj_k_id = "highland_6539_self_stick_notes"
+obj_l_id = "kong_air_dog_squeakair_tennis_ball"
+obj_m_id = "kong_duck_dog_toy"
+obj_n_id = "kong_sitting_frog_dog_toy"
+obj_o_id = "kyjen_squeakin_eggs_plush_puppies"
+obj_p_id = "laugh_out_loud_joke_book" 
+obj_q_id = "mark_twain_huckleberry_finn"     
+obj_r_id = "mead_index_cards"
+obj_s_id = "mommys_helper_outlet_plugs"
+obj_t_id = "munchkin_white_hot_duck_bath_toy"
+obj_u_id = "oreo_mega_stuf"
+obj_v_id = "paper_mate_12_count_mirado_black_warrior"      
+obj_w_id = "rolodex_jumbo_pencil_cup"
+obj_x_id = "safety_works_safety_glasses"
+obj_y_id = "sharpie_accent_tank_style_highlighters"
+obj_z_id = "stanley_66_052"
+
+obj_ids =\
+[\
+    obj_a_id,\
+    obj_b_id,\
+    obj_c_id,\
+    obj_d_id,\
+    obj_e_id,\
+    obj_f_id,\
+    obj_g_id,\
+    obj_h_id,\
+    obj_i_id,\
+    obj_j_id,\
+    obj_k_id,\
+    obj_l_id,\
+    obj_m_id,\
+    obj_n_id,\
+    obj_o_id,\
+    obj_p_id,\
+    obj_q_id,\
+    obj_r_id,\
+    obj_s_id,\
+    obj_t_id,\
+    obj_u_id,\
+    obj_v_id,\
+    obj_w_id,\
+    obj_x_id,\
+    obj_y_id,\
+    obj_z_id,\
+]
+
+# object weights
+
+obj_weights =\
+{\
+    obj_a_id: 490,\
+    obj_b_id: 206,\
+    obj_c_id:  54,\
+    obj_d_id: 378,\
+    obj_e_id:  74,\
+    obj_f_id: 144,\
+    obj_g_id:  20,\
+    obj_h_id: 168,\
+    obj_i_id: 116,\
+    obj_j_id: 278,\
+    obj_k_id: 174,\
+    obj_l_id: 100,\
+    obj_m_id:  26,\
+    obj_n_id:  32,\
+    obj_o_id:  52,\
+    obj_p_id:  78,\
+    obj_q_id: 168,\
+    obj_r_id: 148,\
+    obj_s_id:  74,\
+    obj_t_id:  74,\
+    obj_u_id: 402,\
+    obj_v_id:  74,\
+    obj_w_id:  92,\
+    obj_x_id:  46,\
+    obj_y_id: 116,\
+    obj_z_id:  84,\
+}
+
 # file dictionary keys
 
 tote_obj_ids_key = "work_order"
@@ -227,6 +330,7 @@ def init():
     rec_obj.init("rec_obj_srv")
     pos_arm.init("pos_arm_srv")
     sns_obj.init("sns_obj_srv")
+    wgh_obj.init("wgh_obj_srv")
 
     rospy.init_node("tsk_pln_node")
 
@@ -245,8 +349,22 @@ def read_input_file(input_file_path):
     return json.load(json_data)
 
 def id_obj(obj_ids):
+    pos_arm.set_pose(weigh_obj_pose);
+    weight = wgh_obj.get_obj_weight()
+
+    # filter obj ids by weight
+    filt_obj_ids = [ ]
+    
+    for i in range(0, len(obj_ids)):
+        obj_id = obj_ids[i]
+        obj_weight = obj_weights[obj_id]
+
+        if obj_weight > (weight * 0.8) and obj_weight < (weight * 1.2):
+            filt_obj_ids.append(obj_id)
+            rospy.loginfo(obj_id)
+
     pos_arm.set_pose(rec_obj_pose)
-    return rec_obj.get_obj_id(obj_ids)
+    return rec_obj.get_obj_id(filt_obj_ids)
 
 def sel_bin(data):
     bins = { }
@@ -308,15 +426,21 @@ if __name__ == "__main__":
     while len(tote_obj_ids) > 0:
         pick_obj()
         obj_id = id_obj(tote_obj_ids)
-        #TODO need to check if object id returned is present in tote, if not, adjust arm, then try again    
-        bin_id = sel_bin(data)
-        stow_obj(bin_id)
-             
-        # update data
 
-        bin_obj_ids = get_bin_obj_ids(data, bin_id)
-        bin_obj_ids.append(obj_id)
-        tote_obj_ids.remove(obj_id)
+        if obj_id == "":
+            # failed to detect object, put it back
+            pos_arm.set_pose(pick_obj_pose)
+            man_obj.drop_obj()
+        else:
+            # successful detected object   
+            bin_id = sel_bin(data)
+            stow_obj(bin_id)
+                 
+            # update data
+
+            bin_obj_ids = get_bin_obj_ids(data, bin_id)
+            bin_obj_ids.append(obj_id)
+            tote_obj_ids.remove(obj_id)
 
     write_output_file(output_file_path, data)
 
