@@ -4,10 +4,6 @@
 #include <apc_2016/SnsObjSrv.h>
 #include <apc_2016/WghObjSrv.h>
 
-int servo1 = 9;
-int buttonPin = 2;
-int loadCell = A2;                //output from load cell
-
 ros::NodeHandle nh;
 Servo servo;
 
@@ -19,26 +15,25 @@ void callback1(const apc_2016::ManObjSrv::Request &request, apc_2016::ManObjSrv:
     close();
 
   delay(2000); // wait for valve to open/close before returning
-  response.ack = true;  
+  response.ack = true;
 }
 
 void callback2(const apc_2016::SnsObjSrv::Request &request, apc_2016::SnsObjSrv::Response &response)
-{
-	int pressSwitch = digitalRead(8);
-	response.state = (pressSwitch == 1);  
-	delay(100);
+{ 
+  response.state = (digitalRead(8) == 1);  
+  delay(1);
 }
 
 void callback3(const apc_2016::WghObjSrv::Request &request, apc_2016::WghObjSrv::Response &response)
 {
-    int readings = 0;
-    for (int i = 0; i < numReadings; i++)
-        readings += analogRead(loadCell);
+  const int numReadings = 10;
+  int readings = 0;
+  for (int i = 0; i < numReadings; i++)
+    readings += analogRead(A2);
 
-	response.weight = (short)(readings / numReadings);
-	delay(1); 
+  response.weight = (short)(readings / numReadings);
+  delay(1); 
 }
-
 void open()
 {
   servo.write(180); //set servo angle, valve is open corresponds to 180 deg??
@@ -57,7 +52,7 @@ ros::ServiceServer<apc_2016::WghObjSrv::Request, apc_2016::WghObjSrv::Response> 
 
 void setup()
 {
-  pinMode(8,INPUT);
+  pinMode(8, INPUT);
   pinMode(13, OUTPUT); 
 
   nh.getHardware()->setBaud(115200);
@@ -65,9 +60,8 @@ void setup()
   nh.advertiseService(server1);
   nh.advertiseService(server2);
   nh.advertiseService(server3);
-	  
-  Serial.begin(9600);
-  servo.attach(servo1); //OUTPUT pin
+  
+  servo.attach(9); //OUTPUT pin
 }
 
 void loop()

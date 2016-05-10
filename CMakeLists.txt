@@ -6,8 +6,13 @@ project(apc_2016)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
   rospy
-  std_msgs
   message_generation
+  cv_bridge
+  image_transport
+  roscpp
+  sensor_msgs
+  std_msgs
+  geometry_msgs
 )
 
 ## System dependencies are found with CMake's conventions
@@ -53,6 +58,7 @@ find_package(catkin REQUIRED COMPONENTS
 ## Generate services in the 'srv' folder
 add_service_files(
   FILES
+  DepObjSrv.srv
   ManObjSrv.srv
   PosArmSrv.srv
   RecObjSrv.srv
@@ -132,16 +138,16 @@ include_directories(
 # add_dependencies(apc_2016 ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Declare a C++ executable
-# add_executable(apc_2016_node src/apc_2016_node.cpp)
+add_executable(image_converter src/dep_obj/image_converter.cpp)
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above
 # add_dependencies(apc_2016_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
-# target_link_libraries(apc_2016_node
-#   ${catkin_LIBRARIES}
-# )
+target_link_libraries(image_converter
+  ${catkin_LIBRARIES}
+)
 
 #############
 ## Install ##
