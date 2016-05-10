@@ -1,4 +1,4 @@
-\#!/usr/bin/python
+#!/usr/bin/python
 
 import json
 import man_obj
@@ -11,6 +11,7 @@ import wgh_obj
 import geometry_msgs
 import std_msgs
 import dep_obj
+import numpy
 
 """ Definitions """
 
@@ -311,14 +312,13 @@ def init():
     rospy.init_node("tsk_pln_node")
 
 def pick_obj():
-    pos_arm.set_pose(pick_obj_pose)
-
+    pos_arm.set_pose(observe_obj_pose)
     obj_pos = dep_obj.get_obj_pos()
-    
-    temp_pick_obj_pose = geometry_msgs.msg.Pose()
-    temp_pick_obj_pose.position.x = pick_obj_pose.position.x
-    temp_pick_obj_pose.position.y = pick_obj_pose.position.y
-    temp_pick_obj_pose.position.z = pick_obj_pose.position.z
+
+    temp_observe_obj_pose = geometry_msgs.msg.Pose()
+    temp_observe_obj_pose.position.x = observe_obj_pose.position.x
+    temp_observe_obj_pose.position.y = observe_obj_pose.position.y
+    temp_observe_obj_pose.position.z = observe_obj_pose.position.z
     
     temp_x = 0.0;
     temp_y = 0.0;
@@ -326,20 +326,22 @@ def pick_obj():
     
     while obj_pos == "":
         # todo: move arm to slightly different position
-        temp_x = temp_x + math.cos(temp_angle) - 1.0
-        temp_y = temp_y + math.sin(temp_angle)
-        temp_pick_obj_pose.position.x = pick_obj_pose.position.x + temp_x
-        temp_pick_obj_pose.position.y = pick_obj_pose.position.y + temp_y
+        temp_x = temp_x + 0.05 * numpy.cos(temp_angle) - 1.0
+        temp_y = temp_y + 0.05 * numpy.sin(temp_angle)
+        temp_observe_obj_pose.position.x = observe_obj_pose.position.x + temp_x
+        temp_observe_obj_pose.position.y = observe_obj_pose.position.y + temp_y
         temp_angle = temp_angle + 0.52
         pos_arm.set_pose(temp_pick_obj_pose)
         obj_pos = dep_obj.get_obj_pos()        
+
+    pos_arm.set_pose(pick_obj_pose)
 
     coords = obj_pos.split(",")
 
     # todo: move arm over object
     new_pick_obj_pose = geometry_msgs.msg.Pose()
-    new_pick_obj_pose.position.x = temp_pick_obj_pose.position.x - 5.5 * ( coords[1] - 215 )
-    new_pick_obj_pose.position.y = temp_pick_obj_pose.position.y - 5.5 * ( coords[0] - 240 )
+    new_pick_obj_pose.position.x = temp_pick_obj_pose.position.x - 0.055 * ( coords[1] - 215 )
+    new_pick_obj_pose.position.y = temp_pick_obj_pose.position.y - 0.055 * ( coords[0] - 240 )
     new_pick_obj_pose.position.z = temp_pick_obj_pose.position.z
     pos_arm.set_pose(new_pick_obj_pose)
     
@@ -347,7 +349,7 @@ def pick_obj():
         # todo: move arm towards object
         new_pick_obj_pose.position.x = new_pick_obj_pose.position.x
         new_pick_obj_pose.position.y = new_pick_obj_pose.position.y
-        new_pick_obj_pose.position.z = new_pick_obj_pose.position.z - 0.001
+        new_pick_obj_pose.position.z = new_pick_obj_pose.position.z - 0.01
         pos_arm.set_pose(new_pick_obj_pose)
         continue;
 

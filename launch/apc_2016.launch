@@ -10,25 +10,28 @@
   <!-- alternatively invoke using rosrun -->
   <!-- rosrun apc_2016 arm_server.py -->
   <!-- rosrun apc_2016 scene_picking.py -->
-  <include file="$(find apc_2016)/src/pos_arm/launch/ur10_acutalArm.launch" />
+  <!-- <include file="$(find apc_2016)/src/pos_arm/launch/ur10_acutalArm.launch" /> -->
+
+  <!-- STUBBED position arm service -->
+  <node name="pos_arm_srv" pkg="apc_2016" type="pos_arm_srv_stb.py" />
 
    <!-- REAL task planning service -->
   <node name="tsk_pln" pkg="apc_2016" type="tsk_pln.py" />
   
   <!-- STUBBED manipulate object service -->
-  <!-- <node name="man_obj_srv" pkg="apc_2016" type="man_obj_srv_stb.py" /> -->
+  <node name="man_obj_srv" pkg="apc_2016" type="man_obj_srv_stb.py" />
   
   <!-- STUBBED weigh object service -->
-  <!-- <node name="wgh_obj_srv" pkg="apc_2016" type="wgh_obj_srv_stb.py" /> -->
+  <node name="wgh_obj_srv" pkg="apc_2016" type="wgh_obj_srv_stb.py" />
 
   <!-- STUBBED sense object service -->
-  <!-- <node name="sns_obj_srv" pkg="apc_2016" type="sns_obj_srv_stb.py" /> -->
+  <node name="sns_obj_srv" pkg="apc_2016" type="sns_obj_srv_stb.py" />
 
   <!-- REAL manipulate object, weigh object and sense object service running on arduino node -->
-  <node name="serial_node" pkg="rosserial_python" type="serial_node.py">
+  <!-- <node name="serial_node" pkg="rosserial_python" type="serial_node.py">
     <param name="port" value="/dev/ttyACM0" />
     <param name="baud" value="115200" />
-  </node>
+  </node> -->
 
   <!-- STUBBED recognise object service -->
   <node name="rec_obj_srv" pkg="apc_2016" type="rec_obj_srv_stb.py" />
@@ -36,10 +39,10 @@
   <!-- REAL recognise object service -->
   <!-- <include file="$(find apc_2016)/src/rec_obj/launch/rec_obj.launch" /> -->
 
-  <!-- STUBBED position arm service -->
-  <node name="pos_arm_srv" pkg="apc_2016" type="pos_arm_srv_stb.py" />
+  <!-- STUBBED detect object service -->
+  <node name="dep_obj_srv" pkg="apc_2016" type="dep_obj_srv_stb.py" />
 
   <!-- REAL detect object service -->
-  <node name="image_converter" pkg="apc_2016" type="image_converter" /> 
-  <node name="dep_obj_srv" pkg="apc_2016" type="dep_obj_srv.py" />
+  <!-- <node name="image_converter" pkg="apc_2016" type="image_converter" /> -->
+  <!-- <node name="dep_obj_srv" pkg="apc_2016" type="dep_obj_srv.py" /> -->
 </launch>

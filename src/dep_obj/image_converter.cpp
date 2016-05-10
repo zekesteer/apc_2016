@@ -187,7 +187,7 @@ int main(int argc, char** argv)
 #if defined (TRAIN)
   cv::Mat empty;
 #else
-  cv::Mat empty = imread("empty.png", CV_8U);
+  cv::Mat empty = cv::imread("empty.png", CV_8U);
 
   if (!empty.data)
   {
