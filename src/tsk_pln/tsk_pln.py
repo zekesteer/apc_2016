@@ -10,6 +10,7 @@ import sns_obj
 import wgh_obj
 import geometry_msgs
 import std_msgs
+import dep_obj
 
 """ Definitions """
 
@@ -300,6 +301,7 @@ def get_tote_obj_ids(data):
     return data[tote_obj_ids_key]
 
 def init():
+    dep_obj.init("dep_obj_srv")
     man_obj.init("man_obj_srv")
     rec_obj.init("rec_obj_srv")
     pos_arm.init("pos_arm_srv")
@@ -311,9 +313,16 @@ def init():
 def pick_obj():
     pos_arm.set_pose(pick_obj_pose)
 
-    # TODO lots of work needed here
+    obj_pos = dep_obj.get_obj_pos()
+
+    while obj_pos == "":
+        # todo: move arm to slightly different position
+        obj_pos = dep_obj.get_obj_pos()
+
+    # todo: move arm over object
 
     while sns_obj.is_obj_sns() == False:
+        # todo: move arm towards object
         continue;
 
     man_obj.grab_obj()

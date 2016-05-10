@@ -29,7 +29,11 @@
   <!-- STUBBED position arm service -->
   <node name="pos_arm_srv" pkg="apc_2016" type="pos_arm_srv_stb.py" />
 
-  <! -- REAL position arm services -->
+  <!-- REAL position arm services -->
   <!-- <node name="pos_arm_srv" pkg="apc_2016" type="arm_server.py" /> -->
   <!-- <node name="workcell" pkg="apc_2016" type="scene_picking.py" /> -->
+
+  <!-- REAL detect object service -->
+  <node name="image_converter" pkg="apc_2016" type="image_converter" /> 
+  <node name="dep_obj_srv" pkg="apc_2016" type="dep_obj_srv.py" />
 </launch>
