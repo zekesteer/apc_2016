@@ -64,7 +64,7 @@ def srv_callback(req):
     else:
         pos = str(max_pos[0]) + "," + str(max_pos[1]) + "," + str(max_pos[2])
 
-    rospy.loginfo(srv_name + " request = , response = " + pos)
+    rospy.loginfo(srv_name + " request = , response = " + str(pos))
     return pos
 
 def init():
