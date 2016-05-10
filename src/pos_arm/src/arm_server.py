@@ -15,24 +15,24 @@ import numpy as np
 srv_name = "pos_arm_srv"
 
 """ Functions """
-#global group
+global group
 def callback(req):
-    #global group
-    moveit_commander.roscpp_initialize(sys.argv)
+    global group
+    #moveit_commander.roscpp_initialize(sys.argv)
   ## Instantiate a RobotCommander object.  This object is an interface to
   ## the robot as a whole.
-    robot = moveit_commander.RobotCommander()
+    #robot = moveit_commander.RobotCommander()
 
   ## Instantiate a PlanningSceneInterface object.  This object is an interface
   ## to the world surrounding the robot.
-    scene = moveit_commander.PlanningSceneInterface()
+    #scene = moveit_commander.PlanningSceneInterface()
 
   ## Instantiate a MoveGroupCommander object.  This object is an interface
   ## to one group of joints.  In this case the group is the joints in the left
   ## arm.  This interface can be used to plan and execute motions on the left
   ## arm.
-    group = moveit_commander.MoveGroupCommander("manipulator")
-    display_trajectory_publisher = rospy.Publisher('/move_group/display_planned_path',moveit_msgs.msg.DisplayTrajectory)
+    #group = moveit_commander.MoveGroupCommander("manipulator")
+    #display_trajectory_publisher = rospy.Publisher('/move_group/display_planned_path',moveit_msgs.msg.DisplayTrajectory)
 
     group.set_planner_id('RRTkConfigDefault')
     world_target = req.pose
@@ -55,32 +55,32 @@ def callback(req):
         ack = True
     else:
         ack = False
-    moveit_commander.roscpp_shutdown()
+    #moveit_commander.roscpp_shutdown()
     rospy.loginfo(srv_name + " request = " + str(req.pose) + ", response = " + str(ack))
 
     return ack
 
 def init():
-    #global group
+    global group
     rospy.init_node(srv_name + "_node")
 
     
 	
-    #moveit_commander.roscpp_initialize(sys.argv)
+    moveit_commander.roscpp_initialize(sys.argv)
   ## Instantiate a RobotCommander object.  This object is an interface to
   ## the robot as a whole.
-    #robot = moveit_commander.RobotCommander()
+    robot = moveit_commander.RobotCommander()
 
   ## Instantiate a PlanningSceneInterface object.  This object is an interface
   ## to the world surrounding the robot.
-    #scene = moveit_commander.PlanningSceneInterface()
+    scene = moveit_commander.PlanningSceneInterface()
 
   ## Instantiate a MoveGroupCommander object.  This object is an interface
   ## to one group of joints.  In this case the group is the joints in the left
   ## arm.  This interface can be used to plan and execute motions on the left
   ## arm.
-    #group = moveit_commander.MoveGroupCommander("manipulator")
-    #display_trajectory_publisher = rospy.Publisher('/move_group/display_planned_path',moveit_msgs.msg.DisplayTrajectory)
+    group = moveit_commander.MoveGroupCommander("manipulator")
+    display_trajectory_publisher = rospy.Publisher('/move_group/display_planned_path',moveit_msgs.msg.DisplayTrajectory)
     svr = rospy.Service(srv_name, apc_2016.srv.PosArmSrv, callback)
     rospy.loginfo(srv_name + " running...")
     rospy.spin()

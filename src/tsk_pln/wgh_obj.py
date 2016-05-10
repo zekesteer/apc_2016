@@ -10,4 +10,4 @@ def init(srv_name):
 
 def get_obj_weight():
     resp = srv()
-    return resp.weight
+    return resp.weight*2

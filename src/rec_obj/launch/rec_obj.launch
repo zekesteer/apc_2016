@@ -1,5 +1,5 @@
 <launch>
-  <node name="objectRecognitor" pkg="apc_2016" type="service_recognise_object.py" output="screen" cwd="node"/>
+  <node name="rec_obj_srv_node" pkg="apc_2016" type="service_recognise_object.py" output="screen" cwd="node"/>
   <node name="usb_cam" pkg="usb_cam" type="usb_cam_node" >
     <param name="video_device" value="/dev/video0" />
     <param name="image_width" value="640" />
@@ -12,5 +12,4 @@
     <remap from="image" to="image_from_object_recognition"/>
     <param name="autosize" value="true" />
   </node>
-  <node name="objectConsumer" pkg="apc_2016" type="client_recognise_object.py" output="screen" cwd="node"/>
 </launch>
