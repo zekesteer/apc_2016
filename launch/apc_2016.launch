@@ -45,4 +45,5 @@
   <!-- REAL detect object service -->
   <!-- <node name="image_converter" pkg="apc_2016" type="image_converter" /> -->
   <!-- <node name="dep_obj_srv" pkg="apc_2016" type="dep_obj_srv.py" /> -->
+  <!-- <node name="bridge" pkg="kinect2_bridge" type="kinect2_bridge" /> -->
 </launch>
