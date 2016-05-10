@@ -101,7 +101,7 @@ def UR_workcell():
   #pose_c.header.stamp = rospy.Time.now();
   #pose_c.pose= pose1
   pose_tt.pose.position.x = 1
-  pose_tt.pose.position.y = -0.2
+  pose_tt.pose.position.y = -0.46
 
   pose_tt.pose.position.z = 0
   
