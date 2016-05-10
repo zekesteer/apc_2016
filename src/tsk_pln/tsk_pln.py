@@ -319,13 +319,17 @@ def pick_obj():
     temp_observe_obj_pose.position.x = observe_obj_pose.position.x
     temp_observe_obj_pose.position.y = observe_obj_pose.position.y
     temp_observe_obj_pose.position.z = observe_obj_pose.position.z
+    temp_observe_obj_pose.orientation.w = observe_obj_pose.orientation.w
+    temp_observe_obj_pose.orientation.x = observe_obj_pose.orientation.x
+    temp_observe_obj_pose.orientation.y = observe_obj_pose.orientation.y
+    temp_observe_obj_pose.orientation.z = observe_obj_pose.orientation.z
     
     temp_x = 0.0;
     temp_y = 0.0;
     temp_angle = 0.0;
     
     while obj_pos == "":
-        # todo: move arm to slightly different position
+        # move arm to slightly different position
         temp_x = temp_x + 0.05 * numpy.cos(temp_angle) - 1.0
         temp_y = temp_y + 0.05 * numpy.sin(temp_angle)
         temp_observe_obj_pose.position.x = observe_obj_pose.position.x + temp_x
@@ -334,21 +338,21 @@ def pick_obj():
         pos_arm.set_pose(temp_pick_obj_pose)
         obj_pos = dep_obj.get_obj_pos()        
 
-    pos_arm.set_pose(pick_obj_pose)
-
     coords = obj_pos.split(",")
 
-    # todo: move arm over object
+    # move arm over object
     new_pick_obj_pose = geometry_msgs.msg.Pose()
     new_pick_obj_pose.position.x = temp_pick_obj_pose.position.x - 0.055 * ( coords[1] - 215 )
     new_pick_obj_pose.position.y = temp_pick_obj_pose.position.y - 0.055 * ( coords[0] - 240 )
     new_pick_obj_pose.position.z = temp_pick_obj_pose.position.z
+    new_pick_obj.orientation.w = temp_pick_obj_pose.orientation.w
+    new_pick_obj.orientation.x = temp_pick_obj_pose.orientation.x
+    new_pick_obj.orientation.y = temp_pick_obj_pose.orientation.y
+    new_pick_obj.orientation.z = temp_pick_obj_pose.orientation.z
     pos_arm.set_pose(new_pick_obj_pose)
-    
+
     while sns_obj.is_obj_sns() == False:
-        # todo: move arm towards object
-        new_pick_obj_pose.position.x = new_pick_obj_pose.position.x
-        new_pick_obj_pose.position.y = new_pick_obj_pose.position.y
+        # move arm towards object
         new_pick_obj_pose.position.z = new_pick_obj_pose.position.z - 0.01
         pos_arm.set_pose(new_pick_obj_pose)
         continue;
