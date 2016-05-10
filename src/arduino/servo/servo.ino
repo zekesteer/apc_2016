@@ -34,7 +34,6 @@ void callback3(const apc_2016::WghObjSrv::Request &request, apc_2016::WghObjSrv:
   response.weight = (short)(readings / numReadings);
   delay(1); 
 }
-
 void open()
 {
   servo.write(180); //set servo angle, valve is open corresponds to 180 deg??
