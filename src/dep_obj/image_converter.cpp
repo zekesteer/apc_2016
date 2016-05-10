@@ -144,7 +144,7 @@ public:
             if ((center.x > sub.cols/4) && (center.x < sub.cols - sub.cols/4) && 
                 (center.y > sub.rows/4) && (center.y < sub.rows - sub.rows/4))
             {
-              centers.push_back(cv::Point3i(center_x, center_y, (cv_ptr->image).at<uchar>(center_y, center_x)));
+              centers.push_back(cv::Point3i(center_x, center_y, (cv_ptr->image).at<int>(center_y, center_x)));
 
               cv::rectangle(out, r.tl(), r.br(), cv::Scalar(0, 0, 255));
               cv::circle(out, center, 5, cv::Scalar(0, 255, 0));
@@ -153,6 +153,9 @@ public:
         }
       }
     }
+
+    cv::rectangle(out, cv::Point(225, 255), cv::Point(229, 259), cv::Scalar(0, 255, 0));
+    cv::rectangle(out, cv::Point(240, 215), cv::Point(244, 219), cv::Scalar(0, 255, 0));
 
     if (ros::ok())
     {

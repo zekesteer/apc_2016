@@ -13,6 +13,17 @@ find_package(catkin REQUIRED COMPONENTS
   sensor_msgs
   std_msgs
   geometry_msgs
+  rviz
+  tf
+  urdf
+  xacro
+  moveit_commander
+  moveit_msgs
+  trajectory_msgs
+  actionlib
+  control_msgs
+  trajectory_msgs
+  roslib
 )
 
 ## System dependencies are found with CMake's conventions

@@ -40,15 +40,26 @@
   <!-- Use test_depend for packages you need only for testing: -->
   <!--   <test_depend>gtest</test_depend> -->
   <buildtool_depend>catkin</buildtool_depend>
-  <build_depend>gmapping</build_depend>
   <build_depend>rospy</build_depend>
   <build_depend>std_msgs</build_depend>
-  <build_depend>urg_node</build_depend>
-  <run_depend>gmapping</run_depend>
+  <build_depend>copy</build_depend>
+  <build_depend>geometry_msgs.msg</build_depend>
+  <build_depend>moveit_commander</build_depend>
+  <build_depend>moveit_msgs.msg</build_depend>
+  <build_depend>roscpp</build_depend>
+  <build_depend>sys</build_depend>
+  <build_depend>urdf</build_depend>
+  <build_depend>xacro</build_depend>
   <run_depend>rospy</run_depend>
+  <run_depend>copy</run_depend>
+  <run_depend>geometry_msgs.msg</run_depend>
+  <run_depend>moveit_commander</run_depend>
+  <run_depend>moveit_msgs.msg</run_depend>
+  <run_depend>roscpp</run_depend>
   <run_depend>std_msgs</run_depend>
-  <run_depend>urg_node</run_depend>
-
+  <run_depend>sys</run_depend>
+  <run_depend>urdf</run_depend>
+  <run_depend>xacro</run_depend>
 
   <!-- The export tag contains other, unspecified, tags -->
   <export>

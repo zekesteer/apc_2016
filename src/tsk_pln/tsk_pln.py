@@ -318,6 +318,8 @@ def pick_obj():
     while obj_pos == "":
         # todo: move arm to slightly different position
         obj_pos = dep_obj.get_obj_pos()
+        
+    coords = obj_pos.split(",")
 
     # todo: move arm over object
 
