@@ -12,7 +12,8 @@ srv_name = "dep_obj_srv"
 def callback(req):
     pos_x = 256 + (random.random() - 0.5) * 256
     pos_y = 212 + (random.random() - 0.5) * 212
-    rospy.loginfo(srv_name + " request = , response = " + pos_x + "," + pos_y)
+    pos = str(pos_x) + "," + str(pos_y)
+    rospy.loginfo(srv_name + " request = , response = " + pos)
     return pos
 
 def init():

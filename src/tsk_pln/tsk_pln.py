@@ -299,7 +299,13 @@ def get_bin_obj_ids(data, bin_id):
     return data[bin_obj_ids_key][bin_id]
 
 def get_tote_obj_ids(data):
-    return data[tote_obj_ids_key]
+    tote_obj_ids = data[tote_obj_ids_key]
+
+    # remove spark plug as lost!
+    if obj_c_id in tote_obj_ids:
+        del tote_obj_ids[obj_c_id]
+
+    return tote_obj_ids
 
 def init():
     dep_obj.init("dep_obj_srv")
@@ -335,20 +341,20 @@ def pick_obj():
         temp_observe_obj_pose.position.x = observe_obj_pose.position.x + temp_x
         temp_observe_obj_pose.position.y = observe_obj_pose.position.y + temp_y
         temp_angle = temp_angle + 0.52
-        pos_arm.set_pose(temp_pick_obj_pose)
+        pos_arm.set_pose(temp_observe_obj_pose)
         obj_pos = dep_obj.get_obj_pos()        
 
     coords = obj_pos.split(",")
 
     # move arm over object
     new_pick_obj_pose = geometry_msgs.msg.Pose()
-    new_pick_obj_pose.position.x = temp_pick_obj_pose.position.x - 0.055 * ( coords[1] - 215 )
-    new_pick_obj_pose.position.y = temp_pick_obj_pose.position.y - 0.055 * ( coords[0] - 240 )
-    new_pick_obj_pose.position.z = temp_pick_obj_pose.position.z
-    new_pick_obj.orientation.w = temp_pick_obj_pose.orientation.w
-    new_pick_obj.orientation.x = temp_pick_obj_pose.orientation.x
-    new_pick_obj.orientation.y = temp_pick_obj_pose.orientation.y
-    new_pick_obj.orientation.z = temp_pick_obj_pose.orientation.z
+    new_pick_obj_pose.position.x = temp_observe_obj_pose.position.x - 0.055 * ( float(coords[1]) - 215 )
+    new_pick_obj_pose.position.y = temp_observe_obj_pose.position.y - 0.055 * ( float(coords[0]) - 240 )
+    new_pick_obj_pose.position.z = temp_observe_obj_pose.position.z
+    new_pick_obj_pose.orientation.w = temp_observe_obj_pose.orientation.w
+    new_pick_obj_pose.orientation.x = temp_observe_obj_pose.orientation.x
+    new_pick_obj_pose.orientation.y = temp_observe_obj_pose.orientation.y
+    new_pick_obj_pose.orientation.z = temp_observe_obj_pose.orientation.z
     pos_arm.set_pose(new_pick_obj_pose)
 
     while sns_obj.is_obj_sns() == False:
