@@ -1,4 +1,4 @@
-#!/usr/bin/python
+\#!/usr/bin/python
 
 import json
 import man_obj
@@ -333,7 +333,7 @@ def pick_obj():
         temp_angle = temp_angle + 0.52
         pos_arm.set_pose(temp_pick_obj_pose)
         obj_pos = dep_obj.get_obj_pos()        
-    
+
     coords = obj_pos.split(",")
 
     # todo: move arm over object

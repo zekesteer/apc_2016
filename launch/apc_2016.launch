@@ -3,6 +3,16 @@
   <param name="input_file_path" value="$(find apc_2016)/json/stow.json" />
   <param name="output_file_path" value="$(find apc_2016)/json/task.json" />
   <!-- nodes -->
+
+  <!-- REAL position arm services -->
+  <!-- <node name="pos_arm_srv" pkg="apc_2016" type="arm_server.py" /> -->
+  <!-- <node name="workcell" pkg="apc_2016" type="scene_picking.py" /> -->
+  <!-- alternatively invoke using rosrun -->
+  <!-- rosrun apc_2016 arm_server.py -->
+  <!-- rosrun apc_2016 scene_picking.py -->
+  <include file="$(find apc_2016)/src/pos_arm/launch/ur10_acutalArm.launch" />
+
+   <!-- REAL task planning service -->
   <node name="tsk_pln" pkg="apc_2016" type="tsk_pln.py" />
   
   <!-- STUBBED manipulate object service -->
@@ -28,10 +38,6 @@
 
   <!-- STUBBED position arm service -->
   <node name="pos_arm_srv" pkg="apc_2016" type="pos_arm_srv_stb.py" />
-
-  <!-- REAL position arm services -->
-  <!-- <node name="pos_arm_srv" pkg="apc_2016" type="arm_server.py" /> -->
-  <!-- <node name="workcell" pkg="apc_2016" type="scene_picking.py" /> -->
 
   <!-- REAL detect object service -->
   <node name="image_converter" pkg="apc_2016" type="image_converter" /> 

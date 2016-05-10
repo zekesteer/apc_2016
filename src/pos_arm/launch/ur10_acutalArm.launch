@@ -42,6 +42,6 @@
     <arg name="config" value="true"/> 
    </include>
 
-    <rosparam file="$(find apc_2016)/src/pos_arm_stb/urdf/vel.yaml" command="load" ns = "/robot_description_planning"/>
+    <rosparam file="$(find apc_2016)/src/pos_arm/urdf/vel.yaml" command="load" ns = "/robot_description_planning"/>
 
 </launch>

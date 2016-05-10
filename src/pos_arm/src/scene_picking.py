@@ -89,7 +89,7 @@ def UR_workcell():
 
 
   
-  scene.add_mesh('shelf',pose_sh,'/home/student/catkin_ws/src/augmented_robot_des/meshes/shelves.stl')
+  scene.add_mesh('shelf',pose_sh,'/home/student/catkin_ws/src/apc_2016/src/pos_arm/meshes/shelves.stl')
   rospy.sleep(10)
   #add tote
 
@@ -117,7 +117,7 @@ def UR_workcell():
   pose_tt.pose.orientation.w = quaternion[3]
 
   #scale = (1,1,1)
-  scene.add_mesh( 'tote', pose_tt ,'/home/student/catkin_ws/src/augmented_robot_des/meshes/tote_s.stl')
+  scene.add_mesh( 'tote', pose_tt ,'/home/student/catkin_ws/src/apc_2016/src/pos_arm/meshes/tote_s.stl')
 
   
   moveit_commander.roscpp_shutdown()

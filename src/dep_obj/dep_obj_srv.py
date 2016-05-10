@@ -49,9 +49,6 @@ def sub_callback(data):
                 weight = min_pos[3] + 1
                 positions.remove(min_pos)
                 positions.append((new_center_x, new_center_y, new_center_z, weight))
-                
-            #rospy.loginfo("received coord: x " + str(center_x) + ", y " + str(center_y)) 
-    # todo; track weights, etc.
 
 def srv_callback(req):
     global positions
