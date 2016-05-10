@@ -259,32 +259,32 @@ obj_ids =\
 
 obj_weights =\
 {\
-    obj_a_id: 490,\
-    obj_b_id: 206,\
+    obj_a_id: 473,\
+    obj_b_id: 208,\
     obj_c_id:  54,\
-    obj_d_id: 378,\
-    obj_e_id:  74,\
-    obj_f_id: 144,\
-    obj_g_id:  20,\
-    obj_h_id: 168,\
-    obj_i_id: 116,\
-    obj_j_id: 278,\
-    obj_k_id: 174,\
-    obj_l_id: 100,\
-    obj_m_id:  26,\
-    obj_n_id:  32,\
-    obj_o_id:  52,\
-    obj_p_id:  78,\
-    obj_q_id: 168,\
-    obj_r_id: 148,\
-    obj_s_id:  74,\
-    obj_t_id:  74,\
-    obj_u_id: 402,\
-    obj_v_id:  74,\
+    obj_d_id: 374,\
+    obj_e_id:  75,\
+    obj_f_id: 136,\
+    obj_g_id:  19,\
+    obj_h_id: 160,\
+    obj_i_id: 109,\
+    obj_j_id: 279,\
+    obj_k_id: 183,\
+    obj_l_id:  94,\
+    obj_m_id:  22,\
+    obj_n_id:  29,\
+    obj_o_id:  47,\
+    obj_p_id:  82,\
+    obj_q_id: 162,\
+    obj_r_id: 141,\
+    obj_s_id:  80,\
+    obj_t_id:  75,\
+    obj_u_id: 387,\
+    obj_v_id:  72,\
     obj_w_id:  92,\
     obj_x_id:  46,\
-    obj_y_id: 116,\
-    obj_z_id:  84,\
+    obj_y_id: 107,\
+    obj_z_id:  71,\
 }
 
 # file dictionary keys
@@ -314,15 +314,41 @@ def pick_obj():
     pos_arm.set_pose(pick_obj_pose)
 
     obj_pos = dep_obj.get_obj_pos()
-
+    
+    temp_pick_obj_pose = geometry_msgs.msg.Pose()
+    temp_pick_obj_pose.position.x = pick_obj_pose.position.x
+    temp_pick_obj_pose.position.y = pick_obj_pose.position.y
+    temp_pick_obj_pose.position.z = pick_obj_pose.position.z
+    
+    temp_x = 0.0;
+    temp_y = 0.0;
+    temp_angle = 0.0;
+    
     while obj_pos == "":
         # todo: move arm to slightly different position
-        obj_pos = dep_obj.get_obj_pos()
+        temp_x = temp_x + math.cos(temp_angle) - 1.0
+        temp_y = temp_y + math.sin(temp_angle)
+        temp_pick_obj_pose.position.x = pick_obj_pose.position.x + temp_x
+        temp_pick_obj_pose.position.y = pick_obj_pose.position.y + temp_y
+        temp_angle = temp_angle + 0.52
+        pos_arm.set_pose(temp_pick_obj_pose)
+        obj_pos = dep_obj.get_obj_pos()        
+    
+    coords = obj_pos.split(",")
 
     # todo: move arm over object
-
+    new_pick_obj_pose = geometry_msgs.msg.Pose()
+    new_pick_obj_pose.position.x = temp_pick_obj_pose.position.x - 5.5 * ( coords[1] - 215 )
+    new_pick_obj_pose.position.y = temp_pick_obj_pose.position.y - 5.5 * ( coords[0] - 240 )
+    new_pick_obj_pose.position.z = temp_pick_obj_pose.position.z
+    pos_arm.set_pose(new_pick_obj_pose)
+    
     while sns_obj.is_obj_sns() == False:
         # todo: move arm towards object
+        new_pick_obj_pose.position.x = new_pick_obj_pose.position.x
+        new_pick_obj_pose.position.y = new_pick_obj_pose.position.y
+        new_pick_obj_pose.position.z = new_pick_obj_pose.position.z - 0.001
+        pos_arm.set_pose(new_pick_obj_pose)
         continue;
 
     man_obj.grab_obj()
